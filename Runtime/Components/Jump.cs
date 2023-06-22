@@ -1,35 +1,28 @@
 using Unity.Entities;
+using Unity.Mathematics;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public struct Jump : IComponentData
-    {
-        /// <summary>
-        /// The time of the last jump request.
-        /// </summary>
-        public double requestTime;
+    public struct Jump : IComponentData, IEnableableComponent
+    {        
+        float force;
 
         /// <summary>
-        /// The time of the last performed jump.
+        /// The force with which the subject jumps. Must be positive.
         /// </summary>
-        public double performedTime;
+        public float Force
+        {
+            get => force;
+            set => force = math.abs(value) * math.sign(force);
+        }
 
         /// <summary>
-        /// The force with which the subject jumps.
+        /// Is the subject currently requesting to jump?
         /// </summary>
-        public float force;
-
-        /// <summary>
-        /// The duration of time before being grounded that a jump request 
-        /// will be honored. Once the subject becomes grounded, the jump will
-        /// be performed.
-        /// </summary>
-        public float preGraceDuration;
-
-        /// <summary>
-        /// The duration of time after being grounded that a jump request 
-        /// will still be honored.
-        /// </summary>
-        public float postGraceDuration;
+        public bool JumpRequested
+        {
+            get => force > 0;
+            set => force = math.abs(force) * (value ? 1 : -1);
+        }
     }
 }

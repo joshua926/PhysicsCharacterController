@@ -10,46 +10,34 @@ namespace Stubblefield.PhysicsCharacterController
 {
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(GroundChecker))]
+    [UpdateAfter(typeof(JumpRequester))]
+    [UpdateAfter(typeof(PlayerInputSetter))]
     [BurstCompile]
     public partial struct Jumper : ISystem
     {
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            new CharacterJumperJob()
-            {
-                time = SystemAPI.Time.ElapsedTime,
-            }.ScheduleParallel();
+            new Job().ScheduleParallel();          
         }
 
         [BurstCompile]
-        partial struct CharacterJumperJob : IJobEntity
+        partial struct Job : IJobEntity
         {
-            public double time;
 
             [BurstCompile]
             public void Execute(
                 ref Jump jump,
                 ref PhysicsVelocity velocity,
-                in Acceleration acceleration,
                 in Gravity gravity,
                 in PhysicsMass mass)
             {
-                const float gravityEqualityToleranceFactor = .1f;
-
-                bool isGrounded
-               
-                bool preGraceJump = time  - jump.preGraceDuration;
-                bool postGraceJump = jump.requestTime < time + jump.postGraceDuration;
-
-
-                if (!jump.jumpRequested) return;
-                jump.jumpRequested = false;
-                if (!groundCheck.isGrounded) return;
-                groundCheck.isGrounded = false;
-                float3 force = math.up() * jump.jumpForce;
-                velocity.ApplyLinearImpulse(mass, force);
+                if (jump.JumpRequested)
+                {
+                    float3 force = -gravity.direction * jump.Force;
+                    velocity.ApplyLinearImpulse(mass, force);
+                    jump.JumpRequested = false;
+                }
             }
         }
     }
