@@ -1,0 +1,22 @@
+{
+  "name": "com.stubblefield.physicscharactercontroller",
+  "version": "0.0.0",
+  "displayName": "Physics Character Controller",
+  "description": "This package is a character controller and assorted tools based on Unity's DOTS physics and Entities packages.",
+  "unity": "2022.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+  "keywords": [],
+  "author": {
+    "name": "Stubblefield",
+    "email": "joshrs926@gmail.com",
+    "url": ""
+  },
+  "dependencies": {
+    "com.unity.entities.graphics": "1.0.10",
+    "com.unity.physics": "1.0.10",
+    "com.unity.inputsystem": "1.5.1"
+  }
+}
