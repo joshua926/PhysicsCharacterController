@@ -1,34 +1,8 @@
-/*
-const float gravityEqualityToleranceFactor = .1f;
-
-bool isGrounded
-
-bool preGraceJump = time  - jump.preGroundedGraceDuration;
-bool postGraceJump = jump.requestTime < time + jump.postGroundedGraceDuration;
-
-
-if (!jump.jumpRequested) return;
-jump.jumpRequested = false;
-if (!groundCheck.isGrounded) return;
-groundCheck.isGrounded = false;
-float3 force = math.up() * jump.jumpForce;
-velocity.ApplyLinearImpulse(mass, force);
-*/
-
 using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Physics;
-using Unity.Physics.Extensions;
-using Unity.Physics.Systems;
 
 namespace Stubblefield.PhysicsCharacterController
-{
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(IsGroundedSetter))]
-    [UpdateAfter(typeof(PlayerInputSetter))]
+{    
     [BurstCompile]
     public partial struct JumpRequester : ISystem
     {

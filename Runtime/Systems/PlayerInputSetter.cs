@@ -4,11 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Stubblefield.PhysicsCharacterController
-{
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(Runner))]
-    [UpdateBefore(typeof(Looker))]
-    [UpdateBefore(typeof(Jumper))]
+{    
     public partial class PlayerInputSetter : SystemBase
     {
         PlayerInput playerInput;
@@ -42,7 +38,7 @@ namespace Stubblefield.PhysicsCharacterController
                 PlayerID,
                 RefRW<Run>,
                 RefRW<Look>,
-                RefRW<Jump>>())
+                RefRW<JumpTiming>>())
             {
                 run.ValueRW.moveVector = moveInput;
                 look.ValueRW.angles = CalculateNewLookAngles(look.ValueRO, lookInput, SystemAPI.Time.DeltaTime);

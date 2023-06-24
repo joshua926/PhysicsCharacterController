@@ -4,14 +4,9 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Extensions;
-using Unity.Physics.Systems;
 
 namespace Stubblefield.PhysicsCharacterController
-{
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(JumpRequester))]
-    [UpdateAfter(typeof(PlayerInputSetter))]
+{   
     [BurstCompile]
     public partial struct Jumper : ISystem
     {

@@ -4,10 +4,7 @@ using UnityEngine;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    /// <summary>
-    /// The system responsible for moving characters in the direction they want to run.
-    /// </summary>
-    public class Runner : MonoBehaviour
+    public class PhysicsCharacterController : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

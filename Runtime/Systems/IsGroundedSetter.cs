@@ -1,13 +1,9 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Physics.Systems;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(AccelerationSetter))]
     [BurstCompile]
     public partial struct IsGroundedSetter : ISystem
     {

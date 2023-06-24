@@ -7,8 +7,6 @@ using Unity.Physics.Systems;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
     [BurstCompile]
     public partial struct AccelerationSetter : ISystem
     {
