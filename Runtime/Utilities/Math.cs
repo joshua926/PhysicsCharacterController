@@ -78,5 +78,12 @@ namespace Stubblefield.PhysicsCharacterController
             float lz = math.length(localToWorld.Value.c2.xyz);
             return new float3(lx, ly, lz);            
         }
+
+        
+        /// <returns>True if all components are finite, all components are not NaN, and at least one component is non-zero.</returns>
+        public static bool IsSafe(float3 value)
+        {
+            return math.all(math.isfinite(value)) & math.all(!math.isnan(value)) & math.any(value != 0);
+        }
     }
 }

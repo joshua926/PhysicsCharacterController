@@ -8,7 +8,8 @@ namespace Stubblefield.PhysicsCharacterController
     public partial class PlayerInputSetter : SystemBase
     {
         PlayerInput playerInput;
-        double jumpTime;
+        double jumpRequestTime;
+        double moveRequestTime;
         float2 moveInput;
         float2 lookInput;
 
@@ -34,20 +35,28 @@ namespace Stubblefield.PhysicsCharacterController
 
         protected override void OnUpdate()
         {
-            foreach (var (playerID, run, look, jump) in SystemAPI.Query<
-                PlayerID,
-                RefRW<Run>,
-                RefRW<Look>,
-                RefRW<JumpTiming>>())
-            {
-                run.ValueRW.moveVector = moveInput;
-                look.ValueRW.angles = CalculateNewLookAngles(look.ValueRO, lookInput, SystemAPI.Time.DeltaTime);
-                if (jump.ValueRO.requestTime != jumpTime) jump.ValueRW.requestTime = jumpTime;
-            }
+            //foreach (var (playerID, run, look, jump) in SystemAPI.Query<
+            //    PlayerID,
+            //    RefRW<RunInput>,
+            //    RefRW<LookParams>,
+            //    RefRW<JumpInput>>())
+            //{
+            //    look.ValueRW.angles = CalculateNewLookAngles(look.ValueRO, lookInput, SystemAPI.Time.DeltaTime);
+            //    if (run.ValueRO.inputTime != moveRequestTime)
+            //    {
+            //        run.ValueRW.inputTime = moveRequestTime;
+            //        run.ValueRW.value = moveInput;
+            //    }
+            //    if (jump.ValueRO.time != jumpRequestTime)
+            //    {
+            //        jump.ValueRW.time = jumpRequestTime;
+            //    }
+            //}
         }
 
         void WriteRun(InputAction.CallbackContext context)
         {
+            moveRequestTime = SystemAPI.Time.ElapsedTime;
             if (context.phase == InputActionPhase.Canceled)
             {
                 moveInput = default;
@@ -62,7 +71,7 @@ namespace Stubblefield.PhysicsCharacterController
         {
             if (context.phase == InputActionPhase.Canceled)
             {
-                moveInput = default;
+                lookInput = default;
             }
             else
             {
@@ -74,22 +83,22 @@ namespace Stubblefield.PhysicsCharacterController
         {
             if (context.ReadValue<bool>())
             {
-                jumpTime = SystemAPI.Time.ElapsedTime;
+                jumpRequestTime = SystemAPI.Time.ElapsedTime;
             }
         }
 
-        static float2 CalculateNewLookAngles(Look look, float2 lookInput, float deltaTime)
-        {
-            float2 angleOffset = new float2(-lookInput.y, lookInput.x);
-            angleOffset.x *= look.VerticalSpeed;
-            angleOffset.y *= look.HorizontalSpeed;
-            angleOffset *= deltaTime;
+        //static float2 CalculateNewLookAngles(LookParams look, float2 lookInput, float deltaTime)
+        //{
+        //    float2 angleOffset = new float2(-lookInput.y, lookInput.x);
+        //    angleOffset.x *= look.VerticalMaxSpeed;
+        //    angleOffset.y *= look.HorizontalMaxSpeed;
+        //    angleOffset *= deltaTime;
 
-            float2 angle = look.angles + angleOffset;
-            angle.x = math.clamp(angle.x, Look.minVerticalAngle, Look.maxVerticalAngle);
-            angle.y %= math.PI * 2;
+        //    float2 angle = look.angles + angleOffset;
+        //    angle.x = math.clamp(angle.x, LookParams.minVerticalAngle, LookParams.maxVerticalAngle);
+        //    angle.y %= math.PI * 2;
 
-            return angle;
-        }
+        //    return angle;
+        //}
     }
 }

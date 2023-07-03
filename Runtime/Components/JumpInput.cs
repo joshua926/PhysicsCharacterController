@@ -2,17 +2,12 @@ using Unity.Entities;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public struct JumpTiming : IComponentData
+    public struct JumpInput : IComponentData
     {
         /// <summary>
-        /// The time of the last jump request.
+        /// The time of the last input.
         /// </summary>
-        public double requestTime;
-
-        /// <summary>
-        /// The time of the last performed jump.
-        /// </summary>
-        public double performedTime;
+        public double time;
 
         /// <summary>
         /// The duration of time before being grounded that a jump request 

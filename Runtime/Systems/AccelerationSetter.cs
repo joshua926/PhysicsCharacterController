@@ -14,20 +14,22 @@ namespace Stubblefield.PhysicsCharacterController
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            new AccelerationSetterJob()
+            new Job()
             {
-                rcpDeltaTime = math.rcp(SystemAPI.Time.DeltaTime),
+                deltaTimeReciprocal = math.rcp(SystemAPI.Time.DeltaTime),
             }.ScheduleParallel();
         }
 
         [BurstCompile]
-        partial struct AccelerationSetterJob : IJobEntity
+        partial struct Job : IJobEntity
         {
-            public float rcpDeltaTime;
+            public float deltaTimeReciprocal;
 
-            public void Execute(ref Acceleration acceleration, in PhysicsVelocity velocity)
+            public void Execute(
+                ref Acceleration acceleration, 
+                in PhysicsVelocity velocity)
             {
-                acceleration.value = (velocity.Linear - acceleration.priorVelocity) * rcpDeltaTime;
+                acceleration.value = (velocity.Linear - acceleration.priorVelocity) * deltaTimeReciprocal;
                 acceleration.priorVelocity = velocity.Linear;               
             }
         }

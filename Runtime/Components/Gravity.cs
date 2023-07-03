@@ -23,8 +23,16 @@ namespace Stubblefield.PhysicsCharacterController
             get => direction * magnitude;
             set
             {
-                magnitude = math.length(value);              
-                direction = magnitude == 0 ? default : value / magnitude;
+                if (Math.IsSafe(value))
+                {
+                    magnitude = math.length(value);
+                    direction = value / magnitude;
+                }
+                else
+                {
+                    magnitude = 0;
+                    direction = default;
+                }
             }
         }
     }

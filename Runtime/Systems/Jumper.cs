@@ -1,5 +1,4 @@
 using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
@@ -19,20 +18,17 @@ namespace Stubblefield.PhysicsCharacterController
         [BurstCompile]
         partial struct Job : IJobEntity
         {
-
             [BurstCompile]
             public void Execute(
-                ref Jump jump,
+                EnabledRefRW<Jump> jump,
                 ref PhysicsVelocity velocity,
+                in JumpParams jumpParams,
                 in Gravity gravity,
                 in PhysicsMass mass)
-            {
-                if (jump.JumpRequested)
-                {
-                    float3 force = -gravity.direction * jump.Force;
-                    velocity.ApplyLinearImpulse(mass, force);
-                    jump.JumpRequested = false;
-                }
+            {                
+                float3 force = -gravity.direction * jumpParams.force;
+                velocity.ApplyLinearImpulse(mass, force);
+                jump.ValueRW = false;
             }
         }
     }

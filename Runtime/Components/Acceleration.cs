@@ -10,13 +10,18 @@ namespace Stubblefield.PhysicsCharacterController
     public struct Acceleration : IComponentData, IEnableableComponent
     {
         /// <summary>
+        /// The current acceleration.
+        /// </summary>
+        public float3 value;
+
+        /// <summary>
         /// The velocity from the last time this component was updated.
         /// </summary>
         public float3 priorVelocity;
 
         /// <summary>
-        /// The current acceleration.
+        /// The time this component was last updated.
         /// </summary>
-        public float3 value;
+        public double lastUpdateTime;
     }
 }

@@ -3,32 +3,44 @@ using Unity.Physics.Systems;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(JumpRequester))]
-    [UpdateAfter(typeof(PlayerInputSetter))]
-    public partial struct Jumper { }
 
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     [UpdateBefore(typeof(PhysicsSystemGroup))]
-    public partial struct AccelerationSetter { }
-
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(AccelerationSetter))]
     public partial struct IsGroundedSetter { }
 
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     [UpdateBefore(typeof(PhysicsSystemGroup))]
     [UpdateAfter(typeof(IsGroundedSetter))]
-    [UpdateAfter(typeof(PlayerInputSetter))]
-    public partial struct JumpRequester { }
-
-    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateBefore(typeof(Runner))]
-    [UpdateBefore(typeof(Looker))]
-    [UpdateBefore(typeof(Jumper))]
     public partial class PlayerInputSetter { }
 
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateBefore(typeof(PhysicsSystemGroup))]
+    [UpdateAfter(typeof(PlayerInputSetter))]
+    public partial struct Looker { }
 
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateBefore(typeof(PhysicsSystemGroup))]
+    [UpdateAfter(typeof(Looker))]
+    public partial struct RunTimingEnforcer { }
+
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateBefore(typeof(PhysicsSystemGroup))]
+    [UpdateAfter(typeof(RunTimingEnforcer))]
+    public partial struct Runner { }
+
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateBefore(typeof(PhysicsSystemGroup))]
+    [UpdateAfter(typeof(PlayerInputSetter))]
+    public partial struct JumpInputReader { }
+
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateBefore(typeof(PhysicsSystemGroup))]
+    [UpdateAfter(typeof(JumpInputReader))]
+    public partial struct Jumper { }
+
+    // PhysicsSystemGroup
+
+    [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+    [UpdateAfter(typeof(PhysicsSystemGroup))]
+    public partial struct AccelerationSetter { }
 }

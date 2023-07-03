@@ -3,16 +3,15 @@ using Unity.Mathematics;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public struct Run : IComponentData
+    public struct LookInput : IComponentData
     {
-        /// <summary> 
-        /// The desired movement vector in the character's local space.
-        /// Each component must be in the range [0,1].
+        /// <summary>
+        /// The input value in range [0, 1].
         /// </summary>
         public float2 value;
 
         /// <summary>
-        /// The last time this was applied.
+        /// The time of the last input.
         /// </summary>
         public double time;
     }
