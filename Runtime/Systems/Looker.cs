@@ -30,5 +30,19 @@ namespace Stubblefield.PhysicsCharacterController
                 //local.Rotation = quaternion.Euler(new float3(look.angles, 0));
             }
         }
+
+        //static float2 CalculateNewLookAngles(LookParams look, float2 lookInput, float deltaTime)
+        //{
+        //    float2 angleOffset = new float2(-lookInput.y, lookInput.x);
+        //    angleOffset.x *= look.VerticalMaxSpeed;
+        //    angleOffset.y *= look.HorizontalMaxSpeed;
+        //    angleOffset *= deltaTime;
+
+        //    float2 angle = look.angles + angleOffset;
+        //    angle.x = math.clamp(angle.x, LookParams.minVerticalAngle, LookParams.maxVerticalAngle);
+        //    angle.y %= math.PI * 2;
+
+        //    return angle;
+        //}
     }
 }

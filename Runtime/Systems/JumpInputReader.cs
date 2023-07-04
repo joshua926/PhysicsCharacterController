@@ -11,36 +11,38 @@ namespace Stubblefield.PhysicsCharacterController
         {
             new Job()
             {
-                time = SystemAPI.Time.ElapsedTime,
+                ellapsedTime = SystemAPI.Time.ElapsedTime,
             }.ScheduleParallel();
         }
 
         [BurstCompile]
+        [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
         partial struct Job : IJobEntity
         {
-            public double time;
+            public double ellapsedTime;
+            public ComponentLookup<Jump> jumpLookup;
 
             [BurstCompile]
             public void Execute(
-                //ref Jump jump,
-                EnabledRefRW<Jump> isJump,
-                ref JumpInput input,
-                EnabledRefRO<FreeFall> freeFall)                 
+                EnabledRefRW<JumpInput> jumpInput,
+                EnabledRefRW<Jump> jump,
+                ref JumpInputTime jumpInputTime,
+                in JumpTime jumpTime,
+                EnabledRefRO<FreeFall> freeFall,
+                in FreeFallTime freeFallTime)                 
             {
-                //bool liveRequest = input.time > request.performedTime;
-                //bool tooSoonAfterJump = time < request.performedTime + request.postJumpWaitDuration;
-                //bool tooSoonBeforeGrounding = isGrounded.Value && time > request.inputTime + request.preGroundedGraceDuration;
-                //bool tooLateAfterUnGrounding = !isGrounded.Value && time > isGrounded.TimeOfLastGrounded + request.postGroundedGraceDuration;
+                if (!jumpInput.ValueRO) return;
 
-                //if (liveRequest && !tooSoonAfterJump && !tooSoonBeforeGrounding && !tooLateAfterUnGrounding)
-                //{
-                //    isJump.JumpRequested = true;
-                //    request.performedTime = time;
-                //}
-                //else
-                //{
-                //    request.inputTime = 0;
-                //}
+                bool tooSoonAfterJump = ellapsedTime < jumpTime.startTime + jumpInputTime.postJumpWaitDuration;
+                bool tooSoonBeforeGrounding = !freeFall.ValueRO & ellapsedTime > jumpInputTime.inputTime + jumpInputTime.preGroundedGraceDuration;
+                bool tooLateAfterUnGrounding = freeFall.ValueRO & ellapsedTime > freeFallTime.startTime + jumpInputTime.postGroundedGraceDuration;
+
+                if (!tooSoonAfterJump & !tooSoonBeforeGrounding & !tooLateAfterUnGrounding)
+                {
+                    jumpInputTime.inputTime = ellapsedTime;
+                    jumpInput.ValueRW = false;
+                    jump.ValueRW = true;
+                }                
             }
         }
     }

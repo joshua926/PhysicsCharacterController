@@ -15,9 +15,15 @@ namespace Stubblefield.PhysicsCharacterController
         public void OnUpdate(ref SystemState state)
         {
             new Job().ScheduleParallel();
+            new JobWithTime()
+            {
+                ellapsedTime = SystemAPI.Time.ElapsedTime,
+            }.ScheduleParallel();
         }
 
         [BurstCompile]
+        [WithNone(typeof(FreeFallTime))]
+        [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
         partial struct Job : IJobEntity
         {
 
@@ -26,8 +32,35 @@ namespace Stubblefield.PhysicsCharacterController
                 in Acceleration acceleration, 
                 in Gravity gravity)
             {
-                float downwardAccelerationMagnitude = math.dot(acceleration.value, gravity.direction);
-                freeFall.ValueRW = downwardAccelerationMagnitude > gravity.magnitude * .9f;
+                freeFall.ValueRW = math.dot(acceleration.value, gravity.direction) > gravity.magnitude * .9f;
+            }
+        }
+
+        [BurstCompile]
+        [WithOptions(EntityQueryOptions.IgnoreComponentEnabledState)]
+        partial struct JobWithTime : IJobEntity
+        {
+            public double ellapsedTime;
+
+            public void Execute(
+                EnabledRefRW<FreeFall> freeFall,
+                ref FreeFallTime time,
+                in Acceleration acceleration,
+                in Gravity gravity)
+            {
+                bool isFreeFalling = math.dot(acceleration.value, gravity.direction) > gravity.magnitude * .9f;
+                if (isFreeFalling != freeFall.ValueRO)
+                {
+                    if (isFreeFalling)
+                    {
+                        time.startTime = ellapsedTime;
+                    }
+                    else
+                    {
+                        time.endTime = ellapsedTime;
+                    }
+                }
+                freeFall.ValueRW = isFreeFalling;
             }
         }
     }
