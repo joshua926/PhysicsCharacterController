@@ -4,7 +4,7 @@ using Unity.Entities;
 namespace Stubblefield.PhysicsCharacterController
 {    
     [BurstCompile]
-    public partial struct JumpInputReader : ISystem
+    public partial struct JumpSetterFromInput : ISystem
     {
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
@@ -20,7 +20,6 @@ namespace Stubblefield.PhysicsCharacterController
         partial struct Job : IJobEntity
         {
             public double ellapsedTime;
-            public ComponentLookup<Jump> jumpLookup;
 
             [BurstCompile]
             public void Execute(

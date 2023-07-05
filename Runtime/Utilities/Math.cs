@@ -4,7 +4,22 @@ using Unity.Transforms;
 namespace Stubblefield.PhysicsCharacterController
 {
     public static class Math
-    {      
+    {
+        /// <summary>
+        /// Multiply radians by this to get degrees.
+        /// </summary>
+        public const float radiansPerDegree = (math.PI * 2) / 360;
+
+        /// <summary>
+        /// Multiply degrees by this to get radians.
+        /// </summary>
+        public const float degreesPerRadian = 360 / (math.PI * 2);
+
+        /// <summary>
+        /// In radians.
+        /// </summary>
+        public const float rightAngle = math.PI * .5f;
+
         /// <summary>
         /// Converts an angle in radians to a unit length vector. 
         /// Angles start on positive x-axis and rotate counter clockwise as they get more positive.
@@ -84,6 +99,30 @@ namespace Stubblefield.PhysicsCharacterController
         public static bool IsSafe(float3 value)
         {
             return math.all(math.isfinite(value)) & math.all(!math.isnan(value)) & math.any(value != 0);
+        }
+
+        /// <summary>
+        /// Returns the shortest angle in radians between 2 vectors.
+        /// </summary>
+        public static float Angle(float2 a, float2 b)
+        {
+            a = math.normalize(a);
+            b = math.normalize(b);
+            float dot = math.dot(a, b);
+            dot = math.clamp(dot, -1, 1);
+            return math.acos(dot);
+        }
+
+        /// <summary>
+        /// Returns the shortest angle in radians between 2 vectors.
+        /// </summary>
+        public static float Angle(float3 a, float3 b)
+        {
+            a = math.normalize(a);
+            b = math.normalize(b);
+            float dot = math.dot(a, b);
+            dot = math.clamp(dot, -1, 1);
+            return math.acos(dot);                       
         }
     }
 }

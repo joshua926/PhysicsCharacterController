@@ -14,35 +14,42 @@ namespace Stubblefield.PhysicsCharacterController
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            new Job().ScheduleParallel();
+            new Job()
+            {
+                deltaTime = SystemAPI.Time.DeltaTime,
+            }.ScheduleParallel();
         }
 
         [BurstCompile]
         partial struct Job : IJobEntity
         {
+            public float deltaTime;            
 
             [BurstCompile]
             public void Execute(
                 ref LocalTransform local,
-                in LookParams look)
+                in Look look,
+                in LookParams lookParams,
+                in Gravity gravity)
             {
+                float3 aim = local.Forward();
+                float3 up = -gravity.direction;
+                float3 right = math.cross(up, aim);
 
-                //local.Rotation = quaternion.Euler(new float3(look.angles, 0));
+                float currentVerticalAngle = Math.rightAngle - Math.Angle(aim, up);
+                float newVerticalAngle = currentVerticalAngle + look.speed.x * deltaTime;
+                newVerticalAngle = math.clamp(
+                    newVerticalAngle, 
+                    lookParams.allowedAngleRange.x, 
+                    lookParams.allowedAngleRange.y);
+                float verticalAngleDelta = newVerticalAngle - currentVerticalAngle;
+
+                quaternion verticalRotation = quaternion.AxisAngle(right, verticalAngleDelta);
+                quaternion horizontalRotation = quaternion.AxisAngle(up, look.speed.y);
+                aim = math.mul(verticalRotation, aim);
+                aim = math.mul(horizontalRotation, aim);
+                local.Rotation = quaternion.LookRotation(aim, up);
             }
         }
-
-        //static float2 CalculateNewLookAngles(LookParams look, float2 lookInput, float deltaTime)
-        //{
-        //    float2 angleOffset = new float2(-lookInput.y, lookInput.x);
-        //    angleOffset.x *= look.VerticalMaxSpeed;
-        //    angleOffset.y *= look.HorizontalMaxSpeed;
-        //    angleOffset *= deltaTime;
-
-        //    float2 angle = look.angles + angleOffset;
-        //    angle.x = math.clamp(angle.x, LookParams.minVerticalAngle, LookParams.maxVerticalAngle);
-        //    angle.y %= math.PI * 2;
-
-        //    return angle;
-        //}
     }
 }

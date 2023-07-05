@@ -10,10 +10,5 @@ namespace Stubblefield.PhysicsCharacterController
         /// Positive x values look down. Positive y values look right.
         /// </summary>
         public float2 speed;
-
-        /// <summary>
-        /// The time this was last applied.
-        /// </summary>
-        public double time;
     }
 }

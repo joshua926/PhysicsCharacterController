@@ -13,8 +13,11 @@ namespace Stubblefield.PhysicsCharacterController
         /// </summary>
         public float2 maxSpeed;
 
-        // radians = degrees * PI / 180
-        public const float minVerticalAngle = -90 * math.PI / 180;
-        public const float maxVerticalAngle = 90 * math.PI / 180;
+        /// <summary>
+        /// The allowed range of angles in radians. Must be in range [-90 degrees, 90 degrees].
+        /// The first component is expected to be the min and the second component 
+        /// is expected to be the max.
+        /// </summary>
+        public float2 allowedAngleRange;
     }
 }
