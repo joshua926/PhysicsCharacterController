@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public struct JumpParams : IComponentData, IEnableableComponent
+    public struct JumpStats : IComponentData, IEnableableComponent
     {      
         /// <summary>
         /// The jump force.

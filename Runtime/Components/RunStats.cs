@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public struct RunParams : IComponentData
+    public struct RunStats : IComponentData
     {        
         /// <summary>
         /// The max speed the character can run at.

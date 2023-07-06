@@ -29,7 +29,7 @@ namespace Stubblefield.PhysicsCharacterController
             public void Execute(
                 ref LocalTransform local,
                 in Look look,
-                in LookParams lookParams,
+                in LookStats lookStats,
                 in Gravity gravity)
             {
                 float3 aim = local.Forward();
@@ -40,8 +40,8 @@ namespace Stubblefield.PhysicsCharacterController
                 float newVerticalAngle = currentVerticalAngle + look.speed.x * deltaTime;
                 newVerticalAngle = math.clamp(
                     newVerticalAngle, 
-                    lookParams.allowedAngleRange.x, 
-                    lookParams.allowedAngleRange.y);
+                    lookStats.allowedAngleRange.x, 
+                    lookStats.allowedAngleRange.y);
                 float verticalAngleDelta = newVerticalAngle - currentVerticalAngle;
 
                 quaternion verticalRotation = quaternion.AxisAngle(right, verticalAngleDelta);

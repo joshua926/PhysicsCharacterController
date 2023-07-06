@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public class PhysicsCharacterController : MonoBehaviour
+    public class PhysicsCharacterControllerAuthoring : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

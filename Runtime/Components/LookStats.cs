@@ -6,7 +6,7 @@ namespace Stubblefield.PhysicsCharacterController
     /// <summary>
     /// Describes a subject's look orientation.
     /// </summary>
-    public struct LookParams : IComponentData
+    public struct LookStats : IComponentData
     {      
         /// <summary>
         /// The max rate of change for the look angles in radians per second.

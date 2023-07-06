@@ -31,11 +31,11 @@ namespace Stubblefield.PhysicsCharacterController
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     [UpdateBefore(typeof(PhysicsSystemGroup))]
     [UpdateAfter(typeof(PlayerInputSetter))]
-    public partial struct JumpSetterFromInput { }
+    public partial struct JumpWriter { }
 
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
     [UpdateBefore(typeof(PhysicsSystemGroup))]
-    [UpdateAfter(typeof(JumpSetterFromInput))]
+    [UpdateAfter(typeof(JumpWriter))]
     public partial struct Jumper { }
 
     // PhysicsSystemGroup

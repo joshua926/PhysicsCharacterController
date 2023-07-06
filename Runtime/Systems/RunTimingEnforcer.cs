@@ -1,45 +1,34 @@
-//using Unity.Burst;
-//using Unity.Entities;
+using Unity.Burst;
+using Unity.Entities;
+using Unity.Mathematics;
 
-//namespace Stubblefield.PhysicsCharacterController
-//{
-//    [BurstCompile]
-//    public partial struct RunTimingEnforcer : ISystem
-//    {
-//        [BurstCompile]
-//        public void OnUpdate(ref SystemState state)
-//        {
-//            new Job()
-//            {
-//                time = SystemAPI.Time.ElapsedTime,
-//            }.ScheduleParallel();
-//        }
+namespace Stubblefield.PhysicsCharacterController
+{
+    [BurstCompile]
+    public partial struct RunSetterFromInput : ISystem
+    {
+        [BurstCompile]
+        public void OnUpdate(ref SystemState state)
+        {
+            new Job()
+            {
+                ellapsedTime = SystemAPI.Time.ElapsedTime,
+            }.ScheduleParallel();
+        }
 
-//        [BurstCompile]
-//        partial struct Job : IJobEntity
-//        {
-//            public double time;
+        [BurstCompile]
+        partial struct Job : IJobEntity
+        {
+            public double ellapsedTime;
 
-//            [BurstCompile]
-//            public void Execute(
-//                ref RunParams run,
-//                ref RunInput request,
-//                in IsGrounded isGrounded)
-//            {
-//                bool liveRequest = request.inputTime > request.performedTime;
-//                bool tooSoonBeforeGrounding = isGrounded.Value && time > request.inputTime + request.preGroundedGraceDuration;
-//                bool tooLateAfterUnGrounding = !isGrounded.Value && time > isGrounded.TimeOfLastGrounded + request.postGroundedGraceDuration;
-
-//                if (liveRequest && !tooSoonBeforeGrounding && !tooLateAfterUnGrounding)
-//                {
-//                    run.value = request.value;
-//                    request.performedTime = time;
-//                }
-//                else
-//                {
-//                    request.inputTime = 0;
-//                }
-//            }
-//        }
-//    }
-//}
+            [BurstCompile]
+            public void Execute(
+                ref Look look,
+                in LookStats lookParams,
+                in LookInput lookInput)
+            {
+                look.speed = new float2(-lookInput.value.y, lookInput.value.x) * lookParams.maxSpeed;
+            }
+        }
+    }
+}

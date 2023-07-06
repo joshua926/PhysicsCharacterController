@@ -29,11 +29,11 @@ namespace Stubblefield.PhysicsCharacterController
             public void Execute(
                 EnabledRefRW<Jump> jump,
                 ref PhysicsVelocity velocity,
-                in JumpParams jumpParams,
+                in JumpStats jumpStats,
                 in Gravity gravity,
                 in PhysicsMass mass)
             {
-                velocity.ApplyLinearImpulse(mass, -gravity.direction * jumpParams.force);
+                velocity.ApplyLinearImpulse(mass, -gravity.direction * jumpStats.force);
                 jump.ValueRW = false;
             }
         }
@@ -48,11 +48,11 @@ namespace Stubblefield.PhysicsCharacterController
                 EnabledRefRW<Jump> jump,
                 ref JumpTime time,
                 ref PhysicsVelocity velocity,
-                in JumpParams jumpParams,
+                in JumpStats jumpStats,
                 in Gravity gravity,
                 in PhysicsMass mass)
             {
-                velocity.ApplyLinearImpulse(mass, -gravity.direction * jumpParams.force);
+                velocity.ApplyLinearImpulse(mass, -gravity.direction * jumpStats.force);
                 jump.ValueRW = false;
                 time.startTime = ellapsedTime;
             }

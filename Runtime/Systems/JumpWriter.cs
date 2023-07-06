@@ -4,7 +4,7 @@ using Unity.Entities;
 namespace Stubblefield.PhysicsCharacterController
 {    
     [BurstCompile]
-    public partial struct JumpSetterFromInput : ISystem
+    public partial struct JumpWriter : ISystem
     {
         [BurstCompile]
         public void OnUpdate(ref SystemState state)

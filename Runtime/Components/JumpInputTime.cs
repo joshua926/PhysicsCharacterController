@@ -3,12 +3,7 @@ using Unity.Entities;
 namespace Stubblefield.PhysicsCharacterController
 {
     public struct JumpInputTime : IComponentData
-    {
-        /// <summary>
-        /// The last time a jump was performed.
-        /// </summary>
-        public double performedTime;
-
+    {        
         /// <summary>
         /// The last time a jump input ocurred. 
         /// </summary>

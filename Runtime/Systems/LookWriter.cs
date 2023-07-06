@@ -5,7 +5,7 @@ using Unity.Mathematics;
 namespace Stubblefield.PhysicsCharacterController
 {
     [BurstCompile]
-    public partial struct LookSetterFromInput : ISystem
+    public partial struct LookWriter : ISystem
     {
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
@@ -24,7 +24,7 @@ namespace Stubblefield.PhysicsCharacterController
             [BurstCompile]
             public void Execute(
                 ref Look look,
-                in LookParams lookParams,
+                in LookStats lookParams,
                 in LookInput lookInput)
             {               
                 look.speed = new float2(-lookInput.value.y, lookInput.value.x) * lookParams.maxSpeed;

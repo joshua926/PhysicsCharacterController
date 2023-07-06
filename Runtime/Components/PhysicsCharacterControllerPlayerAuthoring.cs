@@ -6,7 +6,7 @@ using Unity.Entities.Hybrid;
 
 namespace Stubblefield.PhysicsCharacterController
 {
-    public class PhysicsCharacterControllerPlayer : MonoBehaviour
+    public class PhysicsCharacterControllerPlayerAuthoring : MonoBehaviour
     {
         [Tooltip("The Camera in the standard Unity scene which will follow this player.")]
         public Camera cam;
@@ -28,9 +28,9 @@ namespace Stubblefield.PhysicsCharacterController
         }
     }
 
-    public class PhysicsCharacterControllerPlayerBaker : Baker<PhysicsCharacterControllerPlayer>
+    public class PhysicsCharacterControllerPlayerBaker : Baker<PhysicsCharacterControllerPlayerAuthoring>
     {
-        public override void Bake(PhysicsCharacterControllerPlayer authoring)
+        public override void Bake(PhysicsCharacterControllerPlayerAuthoring authoring)
         {
             DependsOn(authoring.cam);
 
